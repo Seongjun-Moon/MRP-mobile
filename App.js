@@ -1,57 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import Signin from "./components/signin";
 
-// Sample Code : https://docs.expo.io/versions/latest/sdk/bar-code-scanner/
 export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    console.log(data);
-    const fetchOptions = {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ barcode: data }),
-    };
-    console.log(fetchOptions.body);
-    if (data) fetch("http://70.12.113.182:9090/oversee/search", fetchOptions);
-  };
-
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-end",
-      }}
-    >
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>MRP</Text>
 
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
+      <Signin />
+
+      <TouchableOpacity onPress={() => alert("곰성준씨 가만히계세여")}>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.button}>등록하기</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#dee8eb",
+    alignItems: "center",
+  },
+  title: {
+    color: "#3e3533",
+    fontSize: 50,
+    marginTop: 80,
+    marginBottom: 10,
+  },
+  button: {
+    color: "#64b3d3",
+    fontSize: 20,
+  },
+  buttonContainer: {
+    borderColor: "#64b3d3",
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 15,
+    paddingLeft: 50,
+    paddingRight: 50,
+    marginTop: 200,
+  },
+});
