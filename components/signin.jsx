@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 
-export default function Signin() {
+export default function Signin(props) {
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
 
@@ -25,76 +25,90 @@ export default function Signin() {
     console.log(fetchOptions);
     fetch(`http://${url}/user/signIn`, fetchOptions)
       .then((res) => res.json())
-      .then((data) => alert(data.companyType));
+      .then((data) => {
+        console.log(data);
+        if (data.message) {
+          props.setCompanyType(data.companyType);
+          props.setLogin(true);
+        } else {
+          alert("❗️로그인에 실패했습니다.");
+          setEmail(null);
+          setPassword(null);
+        }
+      });
   };
 
   return (
     <View style={styles.container}>
-      <Text>Email</Text>
+      <Text style={styles.title}>MRP</Text>
+
+      {/* <Text>Email</Text> */}
       <TextInput
-        style={{
-          height: 40,
-          width: 200,
-          borderColor: "gray",
-          borderWidth: 1,
-          marginBottom: 20,
-          padding: 5,
-        }}
+        style={styles.input}
         onChangeText={(text) => setEmail(text)}
-        placeholder="email"
-        autoFocus
+        placeholder="Email"
+        value={email}
       />
 
-      <Text>Password</Text>
+      {/* <Text>Password</Text> */}
       <TextInput
-        style={{
-          height: 40,
-          width: 200,
-          borderColor: "gray",
-          borderWidth: 1,
-          marginBottom: 20,
-          padding: 5,
-        }}
+        style={styles.input}
         onChangeText={(text) => setPassword(text)}
-        placeholder="password"
+        placeholder="Password"
         secureTextEntry={true}
+        value={password}
       />
 
-      <Button
+      <TouchableOpacity
         onPress={() => {
-          console.log(email);
-          if (email && password) signin(email, password);
+          console.log(email + password);
+          email && password
+            ? signin(email, password)
+            : alert("❗️이메일과 비밀번호를 입력해주세요");
         }}
-        title="로그인"
-        color="#64b3d3"
-      />
+        style={styles.buttonContainer}
+      >
+        <View>
+          <Text style={styles.button}>로그인</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     backgroundColor: "#dee8eb",
-  //     alignItems: "center",
-  //   },
-  //   title: {
-  //     color: "#3e3533",
-  //     fontSize: 50,
-  //     marginTop: 80,
-  //     marginBottom: 10,
-  //   },
-  //   button: {
-  //     color: "#64b3d3",
-  //     fontSize: 20,
-  //   },
-  //   buttonContainer: {
-  //     borderColor: "#64b3d3",
-  //     borderRadius: 10,
-  //     borderWidth: 2,
-  //     padding: 15,
-  //     paddingLeft: 50,
-  //     paddingRight: 50,
-  //     marginTop: 200,
-  //   },
+  container: {
+    flex: 1,
+    backgroundColor: "#dee8eb",
+    alignItems: "center",
+  },
+  title: {
+    color: "#3e3533",
+    fontSize: 50,
+    marginTop: 80,
+    marginBottom: 10,
+  },
+  input: {
+    height: 50,
+    width: 250,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+    fontSize: 20,
+  },
+  button: {
+    color: "#64b3d3",
+    fontSize: 20,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    borderColor: "#64b3d3",
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 15,
+    paddingLeft: 50,
+    paddingRight: 50,
+    // marginTop: 200,
+  },
 });
