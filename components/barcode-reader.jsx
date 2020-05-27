@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import API from "../API";
 
 // Sample Code : https://docs.expo.io/versions/latest/sdk/bar-code-scanner/
-export default function BarCodeReader() {
+export default function BarCodeReader(props) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [barcode, setBarcode] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -16,17 +18,10 @@ export default function BarCodeReader() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`${data} 스캔완료!`);
     console.log(data);
-    const fetchOptions = {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ barcode: data }),
-    };
-    console.log(fetchOptions.body);
-    if (data) fetch("http://70.12.113.182:9090/oversee/search", fetchOptions);
+
+    if (data) setBarcode(data);
   };
 
   if (hasPermission === null) {
@@ -50,8 +45,12 @@ export default function BarCodeReader() {
       />
 
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <>
+          <Button title={"다시 찍기"} onPress={() => setScanned(false)} />
+          <Button onPress={() => API.sendInfo(barcode)} />
+        </>
       )}
+      <Button title={"뒤로가기"} onPress={() => props.setBarcode(false)} />
     </View>
   );
 }

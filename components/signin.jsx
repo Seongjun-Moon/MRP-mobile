@@ -7,35 +7,19 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
+import API from "../API";
 
 export default function Signin(props) {
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
 
-  const signin = (email, password) => {
-    const url = "70.12.113.182:9090";
-    const fetchOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: email, pw: password }),
-    };
+  const signin = async (email, password) => {
+    const data = await API.signin(email, password);
+    props.setCompanyType(data.companyType);
+    props.setLogin(true);
 
-    console.log(fetchOptions);
-    fetch(`http://${url}/user/signIn`, fetchOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.message) {
-          props.setCompanyType(data.companyType);
-          props.setLogin(true);
-        } else {
-          alert("❗️로그인에 실패했습니다.");
-          setEmail(null);
-          setPassword(null);
-        }
-      });
+    setEmail(null);
+    setPassword(null);
   };
 
   return (
@@ -48,6 +32,7 @@ export default function Signin(props) {
         onChangeText={(text) => setEmail(text)}
         placeholder="Email"
         value={email}
+        keyboardType="email-address"
       />
 
       {/* <Text>Password</Text> */}
@@ -61,7 +46,6 @@ export default function Signin(props) {
 
       <TouchableOpacity
         onPress={() => {
-          console.log(email + password);
           email && password
             ? signin(email, password)
             : alert("❗️이메일과 비밀번호를 입력해주세요");
