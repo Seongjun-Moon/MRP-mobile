@@ -19,13 +19,13 @@ const signin = (email, password) => {
     });
 };
 
-const sendInfo = (barcode) => {
+const sendInfo = (data) => {
   const fetchOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ barcode }),
+    body: JSON.stringify({ data }),
   };
 
   console.log(fetchOptions);

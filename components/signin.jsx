@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Text,
   TextInput,
@@ -16,6 +16,7 @@ export default function Signin(props) {
   const signin = async (email, password) => {
     const data = await API.signin(email, password);
     props.setCompanyType(data.companyType);
+    props.setCompanyCode(data.companyCode);
     props.setLogin(true);
 
     setEmail(null);

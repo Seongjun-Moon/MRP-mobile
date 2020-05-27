@@ -7,7 +7,6 @@ import API from "../API";
 export default function BarCodeReader(props) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [barcode, setBarcode] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -21,7 +20,7 @@ export default function BarCodeReader(props) {
     alert(`${data} 스캔완료!`);
     console.log(data);
 
-    if (data) setBarcode(data);
+    if (data) props.setBarcode(data);
   };
 
   if (hasPermission === null) {
@@ -47,10 +46,12 @@ export default function BarCodeReader(props) {
       {scanned && (
         <>
           <Button title={"다시 찍기"} onPress={() => setScanned(false)} />
-          <Button onPress={() => API.sendInfo(barcode)} />
         </>
       )}
-      <Button title={"뒤로가기"} onPress={() => props.setBarcode(false)} />
+      <Button
+        title={"뒤로가기"}
+        onPress={() => props.setBarcodeScreen(false)}
+      />
     </View>
   );
 }

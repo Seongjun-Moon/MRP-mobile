@@ -19,7 +19,11 @@ export default function App() {
           companyCode={companyCode}
         />
       ) : (
-        <Signin setLogin={setLogin} setCompanyType={setCompanyType} />
+        <Signin
+          setLogin={setLogin}
+          setCompanyType={setCompanyType}
+          setCompanyCode={setCompanyCode}
+        />
       )}
     </View>
   );
