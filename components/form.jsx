@@ -67,11 +67,11 @@ export default function Form(props) {
           </View>
 
           <View style={styles.formInputContainer}>
-            <Text style={styles.labelText}>입 / 출고할 회사명</Text>
+            <Text style={styles.labelText}>입 / 출고할 회사 코드</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => setTargetCompanyCode(text)}
-              placeholder="회사명 검색"
+              placeholder="회사명 검색(기능 추후 개발)"
               value={targetCompanyCode}
             />
           </View>

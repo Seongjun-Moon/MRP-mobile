@@ -16,10 +16,13 @@ export default function Signin(props) {
 
   const signin = async (email, password) => {
     const data = await API.signin(email, password);
-    props.setCompanyType(data.companyType);
-    props.setCompanyCode(data.companyCode);
-    props.setLogin(true);
-
+    if (data.message) {
+      props.setCompanyType(data.companyType);
+      props.setCompanyCode(data.companyCode);
+      props.setLogin(true);
+    } else {
+      alert("로그인에 실패했습니다.");
+    }
     setEmail(null);
     setPassword(null);
   };
@@ -48,11 +51,11 @@ export default function Signin(props) {
         text="로그인"
         btnColor="#64b3d3"
         btnContainerColor="#64b3d3"
-        handleOnPress={() => {
+        handleOnPress={() =>
           email && password
             ? signin(email, password)
-            : alert("❗️이메일과 비밀번호를 입력해주세요");
-        }}
+            : alert("❗️이메일과 비밀번호를 입력해주세요")
+        }
       />
     </View>
   );
