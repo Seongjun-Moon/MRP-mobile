@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 
 export default function CustomButton(props) {
   return (
-    <TouchableOpacity onPress={props.handleOnPress}>
+    <TouchableOpacity onPress={props.handleOnPress} style={props.style}>
       <View
         style={{
           alignItems: "center",

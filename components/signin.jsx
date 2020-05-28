@@ -8,6 +8,7 @@ import {
   Button,
 } from "react-native";
 import API from "../API";
+import CustomButton from "./custom-button";
 
 export default function Signin(props) {
   const [email, setEmail] = React.useState(null);
@@ -27,7 +28,6 @@ export default function Signin(props) {
     <View style={styles.container}>
       <Text style={styles.title}>MRP</Text>
 
-      {/* <Text>Email</Text> */}
       <TextInput
         style={styles.input}
         onChangeText={(text) => setEmail(text)}
@@ -36,7 +36,6 @@ export default function Signin(props) {
         keyboardType="email-address"
       />
 
-      {/* <Text>Password</Text> */}
       <TextInput
         style={styles.input}
         onChangeText={(text) => setPassword(text)}
@@ -45,18 +44,16 @@ export default function Signin(props) {
         value={password}
       />
 
-      <TouchableOpacity
-        onPress={() => {
+      <CustomButton
+        text="로그인"
+        btnColor="#64b3d3"
+        btnContainerColor="#64b3d3"
+        handleOnPress={() => {
           email && password
             ? signin(email, password)
             : alert("❗️이메일과 비밀번호를 입력해주세요");
         }}
-        style={styles.buttonContainer}
-      >
-        <View>
-          <Text style={styles.button}>로그인</Text>
-        </View>
-      </TouchableOpacity>
+      />
     </View>
   );
 }
@@ -64,7 +61,7 @@ export default function Signin(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#dee8eb",
+    backgroundColor: "#fff",
     alignItems: "center",
   },
   title: {
@@ -83,12 +80,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   button: {
-    color: "#64b3d3",
+    // color: "#64b3d3",
+    color: "#7a4938",
     fontSize: 20,
   },
   buttonContainer: {
     alignItems: "center",
-    borderColor: "#64b3d3",
+    borderColor: "#7a4938",
     borderRadius: 10,
     borderWidth: 2,
     padding: 15,

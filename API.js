@@ -19,7 +19,7 @@ const signin = (email, password) => {
     });
 };
 
-const sendInfo = (data) => {
+const sendDistInfo = (data) => {
   const fetchOptions = {
     method: "POST",
     headers: {
@@ -28,11 +28,13 @@ const sendInfo = (data) => {
     body: JSON.stringify({ data }),
   };
 
-  console.log(fetchOptions);
-  fetch(`http://${url}/oversee/search`, fetchOptions)
+  console.log(fetchOptions.body);
+  fetch(`http://${url}/distributor/productEnroll`, fetchOptions)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      return data;
+      // 여기 지금 data 리턴 undefined로 옴
     });
 };
-export default { signin, sendInfo };
+export default { signin, sendDistInfo };
