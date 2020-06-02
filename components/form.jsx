@@ -14,11 +14,12 @@ import API from "../API";
 import CompanySearch from "./company-search";
 
 export default function Form(props) {
-  const [stateValue, setStateValue] = useState("");
-  const [barcodeScreen, setBarcodeScreen] = useState(false);
-  const [barcode, setBarcode] = useState(null);
   const [companySearch, setCompanySearch] = useState(false);
+  const [barcodeScreen, setBarcodeScreen] = useState(false);
+  const [stateValue, setStateValue] = useState("");
+  const [barcode, setBarcode] = useState(null);
   const [targetCompanyCode, setTargetCompanyCode] = useState(null);
+  const [description, setDescription] = useState(null);
 
   const handleSubmitBtnOnPress = () => {
     if (barcode && targetCompanyCode && stateValue) {
@@ -28,7 +29,7 @@ export default function Form(props) {
           props.companyCode
         },\n 대상 업체 코드: ${targetCompanyCode},\n 바코드: ${barcode},\n 입/출고 여부: ${
           stateValue === "input" ? "입고" : "출고"
-        } \n\n 제출하시겠습니까?`,
+        }, \n 비고: ${description} \n\n 제출하시겠습니까?`,
         [
           {
             text: "Cancel",
@@ -53,6 +54,7 @@ export default function Form(props) {
       targetCompanyCode: targetCompanyCode,
       barcode: barcode,
       state: stateValue,
+      description: description,
     }).then((data) => {
       if (data.message) {
         alert("정상적으로 제출되었습니다.");
@@ -123,6 +125,16 @@ export default function Form(props) {
               </View>
 
               <View style={styles.formInputContainer}>
+                <Text style={styles.labelText}>비고</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="(optional) 입출고 관련 기타사항"
+                  onChangeText={(text) => setDescription(text)}
+                  value={description}
+                ></TextInput>
+              </View>
+
+              <View style={styles.formInputContainer}>
                 <Text style={styles.labelText}>바코드</Text>
                 {barcode ? (
                   <>
@@ -165,32 +177,35 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 18,
     marginBottom: 5,
+    color: "#0B4141",
+    fontWeight: "500",
   },
   mainText: {
     fontSize: 20,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
   formContainer: {
     flex: 1,
     paddingTop: 50,
     paddingBottom: 50,
     marginTop: 20,
-    marginLeft: 50,
-    marginRight: 50,
+    marginLeft: 40,
+    marginRight: 40,
   },
   formInputContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   title: {
     color: "#202020",
     alignSelf: "center",
     fontSize: 30,
     fontWeight: "500",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   input: {
     height: 40,
-    // width: 250,
-    borderColor: "gray",
+    borderColor: "lightgray",
     borderRadius: 5,
     borderWidth: 1,
     marginBottom: 20,
