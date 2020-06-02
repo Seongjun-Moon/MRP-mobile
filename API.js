@@ -31,7 +31,7 @@ const sendDistInfo = (data) => {
   };
 
   console.log(fetchOptions.body);
-  fetch(`http://${url}/distributor/productEnroll`, fetchOptions)
+  return fetch(`http://${url}/distribution/productEnroll`, fetchOptions)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);

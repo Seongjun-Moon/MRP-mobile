@@ -24,7 +24,11 @@ export default function Form(props) {
     if (barcode && targetCompanyCode && stateValue) {
       Alert.alert(
         "유통 내역",
-        `업체 코드: ${props.companyCode},\n 대상 업체 코드: ${targetCompanyCode},\n 바코드: ${barcode},\n 입/출고 여부: ${stateValue} \n\n 제출하시겠습니까?`,
+        `업체 코드: ${
+          props.companyCode
+        },\n 대상 업체 코드: ${targetCompanyCode},\n 바코드: ${barcode},\n 입/출고 여부: ${
+          stateValue === "input" ? "입고" : "출고"
+        } \n\n 제출하시겠습니까?`,
         [
           {
             text: "Cancel",
@@ -44,12 +48,19 @@ export default function Form(props) {
   };
 
   const handleSubmit = async () => {
-    await API.sendDistInfo({
+    return await API.sendDistInfo({
       companyCode: props.companyCode,
       targetCompanyCode: targetCompanyCode,
       barcode: barcode,
       state: stateValue,
-    }).then((data) => alert(data));
+    }).then((data) => {
+      if (data.message) {
+        alert("정상적으로 제출되었습니다.");
+        setBarcode(null);
+      } else {
+        alert("제출 과정에서 오류가 발생했습니다. \n 다시 확인해주세요.");
+      }
+    });
   };
 
   return (
