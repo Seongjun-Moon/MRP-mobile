@@ -1,5 +1,6 @@
 const url = "70.12.113.180:9090";
 
+// 로그인
 const signin = (email, password) => {
   const fetchOptions = {
     method: "POST",
@@ -19,6 +20,7 @@ const signin = (email, password) => {
     });
 };
 
+// 유통 정보 서버로 전송
 const sendDistInfo = (data) => {
   const fetchOptions = {
     method: "POST",
@@ -38,6 +40,7 @@ const sendDistInfo = (data) => {
     });
 };
 
+// 키워드로 업체명 검색
 const searchCompanybyName = (keyword) => {
   const fetchOptions = {
     method: "POST",
@@ -47,12 +50,10 @@ const searchCompanybyName = (keyword) => {
     body: JSON.stringify({ keyword }),
   };
 
-  fetch(`http://${url}/company/searchCompanyByName`, fetchOptions)
+  return fetch(`http://${url}/company/searchCompanyByName`, fetchOptions)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       return data;
-      // 여기 지금 data 리턴 undefined로 옴
     });
 };
-export default { signin, sendDistInfo };
+export default { signin, sendDistInfo, searchCompanybyName };

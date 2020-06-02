@@ -18,6 +18,7 @@ export default function Form(props) {
   const [barcodeScreen, setBarcodeScreen] = useState(false);
   const [barcode, setBarcode] = useState(null);
   const [companySearch, setCompanySearch] = useState(false);
+  const [targetCompanyCode, setTargetCompanyCode] = useState(null);
 
   const handleSubmitBtnOnPress = () => {
     if (barcode && targetCompanyCode && stateValue) {
@@ -64,21 +65,36 @@ export default function Form(props) {
           <Text style={styles.title}>유통 이력 등록</Text>
 
           {companySearch ? (
-            <CompanySearch setCompanySearch={setCompanySearch} />
+            <CompanySearch
+              setCompanySearch={setCompanySearch}
+              setTargetCompanyCode={setTargetCompanyCode}
+            />
           ) : (
             <>
               <View style={styles.formInputContainer}>
-                <Text style={styles.labelText}>회사코드</Text>
+                <Text style={styles.labelText}>업체코드</Text>
                 <Text style={styles.mainText}>{props.companyCode}</Text>
               </View>
 
-              <View style={styles.formInputContainer}>
-                <Button
-                  title="상대 업체명 검색"
-                  color="#828b8b"
-                  onPress={() => setCompanySearch(true)}
-                />
-              </View>
+              {targetCompanyCode ? (
+                <View style={styles.formInputContainer}>
+                  <Text style={styles.labelText}>상대 업체코드</Text>
+                  <Text style={styles.mainText}>{targetCompanyCode}</Text>
+                  <Button
+                    title="업체명 재검색"
+                    color="#828b8b"
+                    onPress={() => setCompanySearch(true)}
+                  />
+                </View>
+              ) : (
+                <View style={styles.formInputContainer}>
+                  <Button
+                    title="상대 업체명 검색"
+                    color="#828b8b"
+                    onPress={() => setCompanySearch(true)}
+                  />
+                </View>
+              )}
 
               <View style={styles.formInputContainer}>
                 <Text style={styles.labelText}>입 / 출고 여부</Text>
