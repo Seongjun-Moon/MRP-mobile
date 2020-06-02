@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Signin from "./components/signin";
 import Form from "./components/form";
-import BarCodeReader from "./components/barcode-reader";
 
 export default function App() {
   const [isLoggedIn, setLogin] = useState(false);

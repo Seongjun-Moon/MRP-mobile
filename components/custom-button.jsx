@@ -8,6 +8,7 @@ export default function CustomButton(props) {
         style={{
           alignItems: "center",
           borderColor: `${props.btnContainerColor}`,
+          backgroundColor: `${props.btnContainerColor}`,
           borderRadius: 10,
           borderWidth: 2,
           padding: 10,
@@ -18,7 +19,8 @@ export default function CustomButton(props) {
       >
         <Text
           style={{
-            color: `${props.btnColor}`,
+            // color: `${props.btnColor}`,
+            color: `#FAF0DC`,
             fontSize: 20,
           }}
         >

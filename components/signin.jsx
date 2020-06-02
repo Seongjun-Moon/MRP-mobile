@@ -4,8 +4,9 @@ import {
   TextInput,
   View,
   StyleSheet,
-  TouchableOpacity,
-  Button,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import API from "../API";
 import CustomButton from "./custom-button";
@@ -28,36 +29,46 @@ export default function Signin(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require("../assets/medicine.jpg")}
+      style={styles.container}
+    >
       <Text style={styles.title}>MRP</Text>
+      <Text style={styles.subTitle}>전문의약품 유통 및 추적 서비스</Text>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setEmail(text)}
-        placeholder="Email"
-        value={email}
-        keyboardType="email-address"
-      />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.signInForm}>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setEmail(text)}
+            placeholder="ID@example.com"
+            value={email}
+            keyboardType="email-address"
+          />
 
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setPassword(text)}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={password}
-      />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setPassword(text)}
+            placeholder="비밀번호를 입력해주세요."
+            secureTextEntry={true}
+            value={password}
+          />
 
-      <CustomButton
-        text="로그인"
-        btnColor="#64b3d3"
-        btnContainerColor="#64b3d3"
-        handleOnPress={() =>
-          email && password
-            ? signin(email, password)
-            : alert("❗️이메일과 비밀번호를 입력해주세요")
-        }
-      />
-    </View>
+          <CustomButton
+            text="로그인"
+            btnColor="#0B4141"
+            btnContainerColor="#0B4141"
+            handleOnPress={() =>
+              email && password
+                ? signin(email, password)
+                : alert("❗️이메일과 비밀번호를 입력해주세요")
+            }
+          />
+
+          <Text style={styles.footer}>&copy;WooahSiblings</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 }
 
@@ -66,35 +77,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
+    paddingTop: 80,
+  },
+  signInForm: {
+    // backgroundColor: "rgba(52, 52, 52, 0.1)",
+    paddingTop: 40,
+    paddingBottom: 40,
+    paddingLeft: 50,
+    paddingRight: 50,
+    borderRadius: 10,
   },
   title: {
     color: "#3e3533",
-    fontSize: 50,
-    marginTop: 80,
-    marginBottom: 10,
+    fontSize: 80,
+    marginTop: 20,
+    // marginBottom: 10,
+  },
+  subTitle: {
+    color: "#3e3533",
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 50,
   },
   input: {
     height: 50,
     width: 250,
     borderColor: "gray",
+    color: "gray",
     borderWidth: 1,
+    borderRadius: 10,
     marginBottom: 20,
     padding: 10,
-    fontSize: 20,
+    fontSize: 15,
   },
-  button: {
-    // color: "#64b3d3",
-    color: "#7a4938",
-    fontSize: 20,
-  },
-  buttonContainer: {
-    alignItems: "center",
-    borderColor: "#7a4938",
-    borderRadius: 10,
-    borderWidth: 2,
-    padding: 15,
-    paddingLeft: 50,
-    paddingRight: 50,
-    // marginTop: 200,
+  footer: {
+    alignSelf: "center",
+    marginTop: 70,
   },
 });

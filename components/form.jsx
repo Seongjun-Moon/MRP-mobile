@@ -11,12 +11,13 @@ import {
 import CustomButton from "./custom-button";
 import BarCodeReader from "./barcode-reader";
 import API from "../API";
+import CompanySearch from "./company-search";
 
 export default function Form(props) {
   const [stateValue, setStateValue] = useState("");
   const [barcodeScreen, setBarcodeScreen] = useState(false);
   const [barcode, setBarcode] = useState(null);
-  const [targetCompanyCode, setTargetCompanyCode] = useState("");
+  const [companySearch, setCompanySearch] = useState(false);
 
   const handleSubmitBtnOnPress = () => {
     if (barcode && targetCompanyCode && stateValue) {
@@ -61,59 +62,68 @@ export default function Form(props) {
       ) : (
         <View style={styles.formContainer}>
           <Text style={styles.title}>유통 이력 등록</Text>
-          <View style={styles.formInputContainer}>
-            <Text style={styles.labelText}>회사코드</Text>
-            <Text style={styles.mainText}>{props.companyCode}</Text>
-          </View>
 
-          <View style={styles.formInputContainer}>
-            <Text style={styles.labelText}>입 / 출고할 회사 코드</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setTargetCompanyCode(text)}
-              placeholder="회사명 검색(기능 추후 개발)"
-              value={targetCompanyCode}
-            />
-          </View>
+          {companySearch ? (
+            <CompanySearch setCompanySearch={setCompanySearch} />
+          ) : (
+            <>
+              <View style={styles.formInputContainer}>
+                <Text style={styles.labelText}>회사코드</Text>
+                <Text style={styles.mainText}>{props.companyCode}</Text>
+              </View>
 
-          <View style={styles.formInputContainer}>
-            <Text style={styles.labelText}>입 / 출고 여부</Text>
-            <Picker
-              selectedValue={stateValue}
-              style={styles.picker}
-              itemStyle={{ height: 44 }}
-              onValueChange={(itemValue) => {
-                setStateValue(itemValue);
-              }}
-            >
-              <Picker.Item label="입고" value="input" />
-              <Picker.Item label="출고" value="output" />
-            </Picker>
-          </View>
+              <View style={styles.formInputContainer}>
+                <Button
+                  title="상대 업체명 검색"
+                  color="#828b8b"
+                  onPress={() => setCompanySearch(true)}
+                />
+              </View>
 
-          <View style={styles.formInputContainer}>
-            <Text style={styles.labelText}>바코드</Text>
-            {barcode ? (
-              <>
-                <Text style={styles.mainText}>{barcode}</Text>
-              </>
-            ) : (
-              <Button
-                title="바코드 인식"
-                color="#828b8b"
-                onPress={() => setBarcodeScreen(true)}
+              <View style={styles.formInputContainer}>
+                <Text style={styles.labelText}>입 / 출고 여부</Text>
+                <Picker
+                  selectedValue={stateValue}
+                  style={styles.picker}
+                  itemStyle={{ height: 44 }}
+                  onValueChange={(itemValue) => {
+                    setStateValue(itemValue);
+                  }}
+                >
+                  <Picker.Item label="입고" value="input" />
+                  <Picker.Item label="출고" value="output" />
+                </Picker>
+              </View>
+
+              <View style={styles.formInputContainer}>
+                <Text style={styles.labelText}>바코드</Text>
+                {barcode ? (
+                  <>
+                    <Text style={styles.mainText}>{barcode}</Text>
+                    <Button
+                      title="바코드 다시 찍기"
+                      color="#828b8b"
+                      onPress={() => setBarcodeScreen(true)}
+                    />
+                  </>
+                ) : (
+                  <Button
+                    title="바코드 인식"
+                    color="#828b8b"
+                    onPress={() => setBarcodeScreen(true)}
+                  />
+                )}
+              </View>
+              <CustomButton
+                style={{ marginBottom: 5 }}
+                handleOnPress={handleSubmitBtnOnPress}
+                btnColor="#0B4141"
+                btnContainerColor="#0B4141"
+                text="제출하기"
               />
-            )}
-          </View>
-
-          <CustomButton
-            style={{ marginBottom: 5 }}
-            handleOnPress={handleSubmitBtnOnPress}
-            btnColor="#202020"
-            btnContainerColor="#202020"
-            text="제출하기"
-          />
-          <Button onPress={() => props.setLogin(false)} title="로그아웃" />
+              <Button onPress={() => props.setLogin(false)} title="로그아웃" />
+            </>
+          )}
         </View>
       )}
     </View>
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     padding: 10,
-    fontSize: 20,
+    fontSize: 18,
   },
   picker: {
     width: 200,

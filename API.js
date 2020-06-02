@@ -1,4 +1,4 @@
-const url = "70.12.113.182:9090";
+const url = "70.12.113.180:9090";
 
 const signin = (email, password) => {
   const fetchOptions = {
@@ -30,6 +30,24 @@ const sendDistInfo = (data) => {
 
   console.log(fetchOptions.body);
   fetch(`http://${url}/distributor/productEnroll`, fetchOptions)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+      // 여기 지금 data 리턴 undefined로 옴
+    });
+};
+
+const searchCompanybyName = (keyword) => {
+  const fetchOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ keyword }),
+  };
+
+  fetch(`http://${url}/company/searchCompanyByName`, fetchOptions)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
