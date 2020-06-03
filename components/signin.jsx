@@ -28,6 +28,12 @@ export default function Signin(props) {
     setPassword(null);
   };
 
+  const handleSubmit = (email, password) => {
+    email && password
+      ? signin(email, password)
+      : alert("❗️이메일과 비밀번호를 입력해주세요");
+  };
+
   return (
     <ImageBackground
       source={require("../assets/medicine.jpg")}
@@ -58,11 +64,7 @@ export default function Signin(props) {
             text="로그인"
             btnColor="#0B4141"
             btnContainerColor="#0B4141"
-            handleOnPress={() =>
-              email && password
-                ? signin(email, password)
-                : alert("❗️이메일과 비밀번호를 입력해주세요")
-            }
+            handleOnPress={() => handleSubmit(email, password)}
           />
 
           <Text style={styles.footer}>&copy;WooahSiblings</Text>
